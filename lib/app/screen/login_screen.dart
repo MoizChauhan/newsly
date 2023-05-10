@@ -32,25 +32,6 @@ class LoginScreen extends StatelessWidget {
                   color: AppColors.googleColor,
                   asset: AppAssets.googleIcon),
               SizedBox(height: 20),
-              RichText(
-                text: TextSpan(
-                    text: "Already have an account? ",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black.withOpacity(0.51)),
-                    children: [
-                      TextSpan(
-                        text: 'Sign In',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
-                    ]),
-              ),
             ],
           ),
         ),

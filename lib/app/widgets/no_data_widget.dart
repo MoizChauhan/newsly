@@ -14,17 +14,17 @@ Widget noDataWidget(String title, onPressed) {
           style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 15,
-              color: AppColors.primaryColor),
+              color: AppColors.black),
         ),
         SizedBox(height: 20),
         Container(
           decoration: BoxDecoration(
-            color: AppColors.primaryColor,
+            color: AppColors.black,
             borderRadius: BorderRadius.circular(50),
           ),
           child: IconButton(
             iconSize: 20,
-            splashColor: AppColors.primaryColor,
+            splashColor: AppColors.black,
             icon: Icon(Icons.refresh, color: AppColors.white),
             tooltip: 'Refresh',
             onPressed: onPressed,

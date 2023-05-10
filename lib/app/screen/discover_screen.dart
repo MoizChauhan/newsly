@@ -72,10 +72,14 @@ class _SavedNews extends StatelessWidget {
                   )
                 : Column(
                     children: [
+                      if (localController.articles.isEmpty)
+                        SizedBox(height: 200),
                       localController.articles.isEmpty
-                          ? noDataWidget("No News Available", () {
-                              localController.getSavedNews();
-                            })
+                          ? Center(
+                              child: noDataWidget("No News Available", () {
+                                localController.getSavedNews();
+                              }),
+                            )
                           : ListView.builder(
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,

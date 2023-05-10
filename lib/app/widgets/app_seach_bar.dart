@@ -68,7 +68,9 @@ class _AppSearchBarState extends State<AppSearchBar> {
     // FocusNode fn = widget.focusNode ?? FocusNode();
     // padding: widget.padding ?? EdgeInsets.all(8.0),
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(9),
+          side: BorderSide(color: AppColors.black)),
       elevation: 0.2,
       child: Theme(
           data: ThemeData(
