@@ -10,6 +10,7 @@ import 'package:newsly/app/utils/app_routes.dart';
 import 'package:newsly/app/widgets/custom_tag.dart';
 import 'package:newsly/app/widgets/image_container.dart';
 import 'package:newsly/app/widgets/mini_news_card.dart';
+import 'package:newsly/app/widgets/no_data_widget.dart';
 
 class NewsPage extends StatelessWidget {
   NewsPage({super.key});
@@ -27,7 +28,10 @@ class NewsPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.45,
                   width: double.infinity,
                   padding: const EdgeInsets.all(20.0))
-              : _NewsOfTheDay(article: homeController.breakingNewsArticles[0])),
+              : _NewsOfTheDay(
+                  article: homeController.breakingNewsArticles.isEmpty
+                      ? null
+                      : homeController.breakingNewsArticles[0])),
           _BreakingNews(homeController: homeController),
           _GeneralNews(homeController: homeController)
         ],
@@ -63,18 +67,22 @@ class _GeneralNews extends StatelessWidget {
                   )
                 : Column(
                     children: [
-                      ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
+                      homeController.articles.isEmpty
+                          ? noDataWidget("No News Available", () {
+                              homeController.getAllNews();
+                            })
+                          : ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
 
-                        physics: NeverScrollableScrollPhysics(),
-                        // scrollDirection: Axis.horizontal,
-                        itemCount: homeController.articles.length,
-                        itemBuilder: (context, index) {
-                          return MiniNewsCard(
-                              article: homeController.articles[index]);
-                        },
-                      ),
+                              physics: NeverScrollableScrollPhysics(),
+                              // scrollDirection: Axis.horizontal,
+                              itemCount: homeController.articles.length,
+                              itemBuilder: (context, index) {
+                                return MiniNewsCard(
+                                    article: homeController.articles[index]);
+                              },
+                            ),
                       Obx(() => homeController.hasMoreLoading.value
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -83,7 +91,10 @@ class _GeneralNews extends StatelessWidget {
                           : Padding(
                               padding: EdgeInsets.all(20),
                               child: Container(
-                                child: Center(child: Text("All data loaded")),
+                                child: Center(
+                                    child: Text(homeController.articles.isEmpty
+                                        ? ""
+                                        : "All data loaded")),
                               ),
                             )),
                     ],
@@ -131,7 +142,9 @@ class _BreakingNews extends StatelessWidget {
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.horizontal,
-                    itemCount: homeController.breakingNewsArticles.length - 1,
+                    itemCount: homeController.breakingNewsArticles.isEmpty
+                        ? 0
+                        : homeController.breakingNewsArticles.length - 1,
                     itemBuilder: (context, index) {
                       return Container(
                         width: MediaQuery.of(context).size.width * 0.5,
@@ -189,7 +202,7 @@ class _NewsOfTheDay extends StatelessWidget {
     required this.article,
   }) : super(key: key);
 
-  final ArticleModel article;
+  final ArticleModel? article;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +210,7 @@ class _NewsOfTheDay extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.45,
       width: double.infinity,
       padding: const EdgeInsets.all(20.0),
-      imageUrl: article.imageUrl,
+      imageUrl: article != null ? article!.imageUrl : "",
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,13 +228,13 @@ class _NewsOfTheDay extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            article.title,
+            article != null ? article!.title : "Error Occured",
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.bold, height: 1.25, color: Colors.white),
           ),
           TextButton(
             onPressed: () {
-              AppRoutes.navigateToArticlePage(article: article);
+              AppRoutes.navigateToArticlePage(article: article!);
             },
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             child: Row(

@@ -5,7 +5,7 @@ import 'package:newsly/app/utils/app_colors.dart';
 Widget noDataWidget(String title, onPressed) {
   return SizedBox(
     width: Get.width,
-    height: Get.height * 0.3,
+    height: Get.height * 0.1,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

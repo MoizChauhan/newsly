@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newsly/app/screen/discover_screen.dart';
+import 'package:get/get.dart';
+import 'package:newsly/app/controller/local_controller.dart';
 import 'package:newsly/app/screen/news_page.dart';
 import 'package:newsly/app/utils/app_colors.dart';
 import 'package:newsly/app/utils/app_routes.dart';
@@ -14,7 +15,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
-
+  final LocalController localController =
+      Get.put(LocalController(), tag: "app", permanent: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             icon: const Icon(
               Icons.logout,
-              color: Colors.white,
+              color: Colors.black,
             ),
           )
         ]),
@@ -50,17 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               label: 'Home',
             ),
-            // BottomNavigationBarItem(
-            //   icon: IconButton(
-            //     onPressed: () {
-            //       setState(() {
-            //         index = 1;
-            //       });
-            //     },
-            //     icon: const Icon(Icons.search),
-            //   ),
-            //   label: 'Search',
-            // ),
             BottomNavigationBarItem(
               icon: IconButton(
                 onPressed: () {

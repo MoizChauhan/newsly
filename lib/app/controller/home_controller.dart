@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   List<ArticleModel> articles = [];
   List<ArticleModel> breakingNewsArticles = [];
   int pageCount = 1;
+
   late ScrollController scrollController;
   bool hasMore = true;
   RxBool hasMoreLoading = false.obs;
