@@ -57,6 +57,7 @@ class _GeneralNews extends StatelessWidget {
           AppSearchBar(
             controller: homeController.searchController,
             onChange: (text) {
+              homeController.searchController.text = text;
               if (text.length > 3) {
                 homeController.getAllNews();
               }
