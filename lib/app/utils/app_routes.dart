@@ -13,7 +13,8 @@ class AppRoutes {
     Get.offAll(() => HomeScreen());
   }
 
-  static navigateToArticlePage({required ArticleModel article}) {
-    Get.to(() => ArticleScreen(article: article));
+  static navigateToArticlePage(
+      {required ArticleModel article, required bool saved}) {
+    Get.to(() => ArticleScreen(article: article, saved: saved));
   }
 }

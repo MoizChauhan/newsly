@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newsly/app/controller/local_controller.dart';
+import 'package:newsly/app/screen/discover_screen.dart';
 import 'package:newsly/app/screen/news_page.dart';
 import 'package:newsly/app/utils/app_colors.dart';
 import 'package:newsly/app/utils/app_routes.dart';
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.white,
           child: AnimatedSwitcher(
             duration: Duration(milliseconds: 2),
-            child: [NewsPage(), Container()][index],
+            child: [NewsPage(), SavedScreen()][index],
           ),
         ));
   }

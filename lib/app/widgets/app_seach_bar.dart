@@ -72,7 +72,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
       elevation: 0.2,
       child: Theme(
           data: ThemeData(
-            primaryColor: AppColors.gradient1,
+            primaryColor: AppColors.gradient2,
             primarySwatch: getMaterialColor(AppColors.gradient2),
           ),
           child: TextFormField(
@@ -86,7 +86,10 @@ class _AppSearchBarState extends State<AppSearchBar> {
               hintText: widget.hintText,
               contentPadding: EdgeInsets.only(top: 0, bottom: 8),
               border: InputBorder.none,
-              prefixIcon: Icon(Icons.search_sharp),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(Icons.search_sharp),
+              ),
               prefixIconConstraints:
                   BoxConstraints(maxHeight: 40, maxWidth: 40),
               enabledBorder: InputBorder.none,

@@ -7,6 +7,7 @@ import 'package:newsly/app/shimmer/breaking_news_shimmer.dart';
 import 'package:newsly/app/shimmer/mini_card_shimmer.dart';
 import 'package:newsly/app/shimmer/top_headline_shimmer.dart';
 import 'package:newsly/app/utils/app_routes.dart';
+import 'package:newsly/app/widgets/app_seach_bar.dart';
 import 'package:newsly/app/widgets/custom_tag.dart';
 import 'package:newsly/app/widgets/image_container.dart';
 import 'package:newsly/app/widgets/mini_news_card.dart';
@@ -50,9 +51,17 @@ class _GeneralNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
       child: Column(
         children: [
+          AppSearchBar(
+            controller: homeController.searchController,
+            onChange: (text) {
+              if (text.length > 3) {
+                homeController.getAllNews();
+              }
+            },
+          ),
           Obx(
             () => homeController.gettingNews.value
                 ? ListView.builder(
@@ -80,6 +89,7 @@ class _GeneralNews extends StatelessWidget {
                               itemCount: homeController.articles.length,
                               itemBuilder: (context, index) {
                                 return MiniNewsCard(
+                                    saved: false,
                                     article: homeController.articles[index]);
                               },
                             ),
@@ -117,7 +127,7 @@ class _BreakingNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
       child: Column(
         children: [
           Row(
@@ -152,6 +162,7 @@ class _BreakingNews extends StatelessWidget {
                         child: InkWell(
                           onTap: () {
                             AppRoutes.navigateToArticlePage(
+                                saved: false,
                                 article: homeController
                                     .breakingNewsArticles[index + 1]);
                           },
@@ -234,7 +245,7 @@ class _NewsOfTheDay extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              AppRoutes.navigateToArticlePage(article: article!);
+              AppRoutes.navigateToArticlePage(article: article!, saved: false);
             },
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
             child: Row(

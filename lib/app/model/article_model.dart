@@ -1,6 +1,7 @@
 class ArticleModel {
   ArticleModel(
       {required this.source,
+      required this.key,
       required this.author,
       required this.title,
       required this.description,
@@ -10,6 +11,7 @@ class ArticleModel {
       required this.content});
 
   String author, description, imageUrl, content;
+  int key;
   String title, url;
   DateTime publishedAt;
   SourceModel source;
@@ -23,25 +25,29 @@ class ArticleModel {
       'title': title,
       'url': url,
       'publishedAt': publishedAt,
-      'source': source,
+      'source': source.toJson(),
     };
   }
 
-  factory ArticleModel.fromJson(Map<String, dynamic> json) => ArticleModel(
+  factory ArticleModel.fromJson(Map<dynamic, dynamic> json) => ArticleModel(
         source: SourceModel.fromJson(json['source'] as Map<String, dynamic>),
         author: json['author'] ?? "",
         title: json['title'] ?? "",
+        key: -1,
         description: json['description'] ?? "",
         url: json['url'] ?? "",
         imageUrl: json['urlToImage'] ?? "",
         publishedAt: json['publishedAt'] != null
-            ? DateTime.parse(json['publishedAt'])
+            ? json['publishedAt'].runtimeType == String
+                ? DateTime.parse(json['publishedAt'])
+                : json['publishedAt']
             : DateTime.now(),
         content: json['content'] ?? "",
       );
 
   static List<ArticleModel> articles = [
     ArticleModel(
+      key: -1,
       title:
           'Lorem ipsum dolor sit amet, consectetur elit. Cras molestie maximus',
       description:

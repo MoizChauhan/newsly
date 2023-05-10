@@ -5,13 +5,14 @@ import 'package:newsly/app/model/article_model.dart';
 import 'package:newsly/app/utils/app_routes.dart';
 
 class MiniNewsCard extends StatelessWidget {
-  const MiniNewsCard({super.key, required this.article});
+  const MiniNewsCard({super.key, required this.article, required this.saved});
   final ArticleModel article;
+  final bool saved;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppRoutes.navigateToArticlePage(article: article);
+        AppRoutes.navigateToArticlePage(article: article, saved: saved);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8),

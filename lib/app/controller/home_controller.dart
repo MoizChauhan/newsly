@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   List<ArticleModel> articles = [];
   List<ArticleModel> breakingNewsArticles = [];
   int pageCount = 1;
+  TextEditingController searchController = TextEditingController();
 
   late ScrollController scrollController;
   bool hasMore = true;
@@ -49,9 +50,10 @@ class HomeController extends GetxController {
   getAllNews() async {
     gettingNews(true);
     pageCount = 1;
-    var parameter = "";
+    print(searchController.text);
 
-    var res = await NewsApi.getNewsApi(pageCount, search: parameter);
+    var res =
+        await NewsApi.getNewsApi(pageCount, search: searchController.text);
     if (res != null) {
       articles = res.articles;
       // hasMore = res.hasNextPage;
@@ -63,9 +65,9 @@ class HomeController extends GetxController {
 
   getMoreNews() async {
     hasMoreLoading(true);
-    var parameter = "";
 
-    var res = await NewsApi.getNewsApi(pageCount, search: parameter);
+    var res =
+        await NewsApi.getNewsApi(pageCount, search: searchController.text);
     if (res != null) {
       articles.addAll(res.articles);
       hasMore = true;

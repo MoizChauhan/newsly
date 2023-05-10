@@ -6,14 +6,31 @@ import 'package:newsly/app/utils/app_toast.dart';
 class LocalController extends GetxController {
   final _newsBox = Hive.box('news_box');
   List<ArticleModel> articles = [];
+  List<ArticleModel> articlesForDisplay = [];
   RxBool loadNews = false.obs;
   void getSavedNews() {
     loadNews(true);
     final data = _newsBox.keys.map((key) {
       final value = _newsBox.get(key);
-      return ArticleModel.fromJson(value);
+      print(value);
+      return ArticleModel(
+        key: key,
+        source: SourceModel(name: value['name'], id: value["id"]),
+        author: value['author'] ?? "",
+        title: value['title'] ?? "",
+        description: value['description'] ?? "",
+        url: value['url'] ?? "",
+        imageUrl: value['urlToImage'] ?? "",
+        publishedAt: value['publishedAt'] != null
+            ? value['publishedAt'].runtimeType == String
+                ? DateTime.parse(value['publishedAt'])
+                : value['publishedAt']
+            : DateTime.now(),
+        content: value['content'] ?? "",
+      );
     }).toList();
     articles = data;
+    articlesForDisplay = articles;
     loadNews(false);
   }
 

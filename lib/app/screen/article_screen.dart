@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newsly/app/controller/local_controller.dart';
 import 'package:newsly/app/model/article_model.dart';
 import 'package:newsly/app/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../widgets/custom_tag.dart';
-import '../widgets/image_container.dart';
 
 class ArticleScreen extends StatelessWidget {
-  const ArticleScreen({Key? key, required this.article}) : super(key: key);
+  const ArticleScreen({Key? key, required this.article, required this.saved})
+      : super(key: key);
   final ArticleModel article;
-  static const routeName = '/article';
+  final bool saved;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: ListView(
         children: [
-          _NewsHeadline(article: article),
+          _NewsHeadline(article: article, saved: saved),
           _NewsBody(article: article)
         ],
       ),
@@ -47,14 +48,8 @@ class _NewsBody extends StatelessWidget {
               CustomTag(
                 backgroundColor: Colors.black,
                 children: [
-                  // CircleAvatar(
-                  //   radius: 10,
-                  //   backgroundImage: NetworkImage(
-                  //     article.,
-                  //   ),
-                  // ),
                   Text(
-                    article.source.name!,
+                    article.source.name ?? "",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Colors.white,
                         ),
@@ -77,20 +72,6 @@ class _NewsBody extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 10),
-              // CustomTag(
-              //   backgroundColor: Colors.grey.shade200,
-              //   children: [
-              //     const Icon(
-              //       Icons.remove_red_eye,
-              //       color: Colors.grey,
-              //     ),
-              //     const SizedBox(width: 10),
-              //     Text(
-              //       '2000',
-              //       style: Theme.of(context).textTheme.bodyMedium,
-              //     ),
-              //   ],
-              // ),
             ],
           ),
           const SizedBox(height: 20),
@@ -137,11 +118,13 @@ class _NewsBody extends StatelessWidget {
 }
 
 class _NewsHeadline extends StatelessWidget {
-  const _NewsHeadline({
+  final LocalController localController = Get.find<LocalController>(tag: "app");
+  _NewsHeadline({
     Key? key,
     required this.article,
+    required this.saved,
   }) : super(key: key);
-
+  final bool saved;
   final ArticleModel article;
 
   @override
@@ -164,21 +147,46 @@ class _NewsHeadline extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: AppColors.black),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.arrow_back_ios_rounded,
-                    color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: AppColors.black),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    if (saved) {
+                      localController.removeNews(article.key);
+                    } else {
+                      localController.addNews(article.toJson());
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: AppColors.black),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Icon(
+                        saved ? Icons.delete : Icons.favorite_border,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.15,

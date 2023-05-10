@@ -9,13 +9,13 @@ import '../service/http_service.dart';
 class NewsApi {
   static HttpService httpService = HttpServe();
 
-  static Future<NewsModel?> getNewsApi(page, {search = ""}) async {
+  static Future<NewsModel?> getNewsApi(page, {String search = ""}) async {
     try {
       var searchparam = "";
       if (search != "") {
         searchparam = "q=$search";
       } else {
-        searchparam = "q='a'";
+        searchparam = "q=a";
       }
       Response res = await httpService.getRequest(
           "${URL.All_Articles}?$searchparam&pageSize=20&page=$page");
