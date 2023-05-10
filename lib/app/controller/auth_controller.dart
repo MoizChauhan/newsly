@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:newsly/app/utils/app_routes.dart';
 import 'package:newsly/main.dart';
 
 class AuthController extends GetxController {
@@ -30,7 +31,9 @@ class AuthController extends GetxController {
     // Once signed in, return the UserCredential
     UserCredential user =
         await FirebaseAuth.instance.signInWithCredential(credential);
-    if (user.user != null) {}
+    if (user.user != null) {
+      AppRoutes.navigateOffHome();
+    }
     loadingcontroller.updateLoading(false);
   }
 }

@@ -11,7 +11,7 @@ Response getEmptyRes = Response(
     data: "", statusCode: 700, requestOptions: RequestOptions(path: ""));
 
 String getToken() {
-  return "";
+  return "Bearer 836dbb2ad512424499d5a286583ec502";
 }
 
 class HttpServe implements HttpService {
@@ -52,7 +52,10 @@ class HttpServe implements HttpService {
     await controller.isConnected();
     try {
       response = await _dio.get(url,
-          options: Options(headers: {'Content-Type': 'application/json'}));
+          options: Options(headers: {
+            'Authorization': getToken(),
+            'Content-Type': 'application/json'
+          }));
     } on DioError catch (e) {
       debugPrint(e.message);
       response = getEmptyRes;

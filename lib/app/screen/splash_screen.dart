@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newsly/app/utils/app_assets.dart';
@@ -15,7 +16,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
-      AppRoutes.navigateOffLogin();
+      if (FirebaseAuth.instance.currentUser != null) {
+        AppRoutes.navigateOffHome();
+      } else {
+        AppRoutes.navigateOffLogin();
+      }
     });
   }
 
