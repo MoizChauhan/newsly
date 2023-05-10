@@ -3,5 +3,5 @@
 class URL {
   static String Base_Url = "https://newsapi.org/v2/";
   static String All_Articles = "everything";
-  static String TopHeadlines = "top-headlines?country=us";
+  static String TopHeadlines = "top-headlines?country=in";
 }
